@@ -148,8 +148,8 @@ class PersistentCachingPluginResolutionServiceClientTest extends Specification {
         1 * delegate.close()
     }
 
-    static PluginRequestInternal request(String id, String version = "1") {
-        new DefaultPluginRequest(id, version, true, 1, new StringScriptSource("test", "test"))
+    static PluginRequestInternal request(String id, String version = "1", URI uri = null) {
+        new DefaultPluginRequest(id, version, uri, true, 1, new StringScriptSource("test", "test"))
     }
 
 }

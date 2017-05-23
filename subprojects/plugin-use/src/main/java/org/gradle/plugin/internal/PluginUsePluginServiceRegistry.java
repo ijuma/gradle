@@ -32,6 +32,7 @@ import org.gradle.api.internal.plugins.PluginRegistry;
 import org.gradle.cache.CacheRepository;
 import org.gradle.cache.PersistentCache;
 import org.gradle.cache.internal.FileLockManager;
+import org.gradle.configuration.ScriptPluginFactory;
 import org.gradle.initialization.ClassLoaderScopeRegistry;
 import org.gradle.internal.Factory;
 import org.gradle.internal.authentication.AuthenticationSchemeRegistry;
@@ -55,6 +56,7 @@ import org.gradle.plugin.use.internal.DefaultPluginRequestApplicator;
 import org.gradle.plugin.use.internal.InjectedPluginClasspath;
 import org.gradle.plugin.use.internal.PluginRequestApplicator;
 import org.gradle.plugin.use.internal.PluginResolverFactory;
+import org.gradle.plugin.use.resolve.internal.ScriptPluginPluginResolver;
 import org.gradle.plugin.use.resolve.service.internal.DeprecationListeningPluginResolutionServiceClient;
 import org.gradle.plugin.use.resolve.service.internal.HttpPluginResolutionServiceClient;
 import org.gradle.plugin.use.resolve.service.internal.InMemoryCachingPluginResolutionServiceClient;
@@ -117,12 +119,18 @@ public class PluginUsePluginServiceRegistry extends AbstractPluginServiceRegistr
         }
 
         PluginResolverFactory createPluginResolverFactory(PluginRegistry pluginRegistry, DocumentationRegistry documentationRegistry, PluginResolutionServiceResolver pluginResolutionServiceResolver,
-                                                          DefaultPluginRepositoryRegistry pluginRepositoryRegistry, InjectedClasspathPluginResolver injectedClasspathPluginResolver, FileLookup fileLookup) {
-            return new PluginResolverFactory(pluginRegistry, documentationRegistry, pluginResolutionServiceResolver, pluginRepositoryRegistry, injectedClasspathPluginResolver);
+                                                          DefaultPluginRepositoryRegistry pluginRepositoryRegistry, InjectedClasspathPluginResolver injectedClasspathPluginResolver,
+                                                          ScriptPluginPluginResolver scriptPluginPluginResolver,
+                                                          FileLookup fileLookup) {
+            return new PluginResolverFactory(pluginRegistry, documentationRegistry, pluginResolutionServiceResolver, pluginRepositoryRegistry, injectedClasspathPluginResolver, scriptPluginPluginResolver);
         }
 
         PluginRequestApplicator createPluginRequestApplicator(PluginRegistry pluginRegistry, PluginResolverFactory pluginResolverFactory, DefaultPluginRepositoryRegistry pluginRepositoryRegistry, PluginResolutionStrategyInternal internalPluginResolutionStrategy, CachedClasspathTransformer cachedClasspathTransformer) {
             return new DefaultPluginRequestApplicator(pluginRegistry, pluginResolverFactory, pluginRepositoryRegistry, internalPluginResolutionStrategy, cachedClasspathTransformer);
+        }
+
+        ScriptPluginPluginResolver createScriptPluginPluginResolver(ClassLoaderScopeRegistry classLoaderScopeRegistry, ScriptPluginFactory scriptPluginFactory) {
+            return new ScriptPluginPluginResolver(classLoaderScopeRegistry.getCoreAndPluginsScope(), scriptPluginFactory);
         }
 
         InjectedClasspathPluginResolver createInjectedClassPathPluginResolver(ClassLoaderScopeRegistry classLoaderScopeRegistry, PluginInspector pluginInspector, InjectedPluginClasspath injectedPluginClasspath) {

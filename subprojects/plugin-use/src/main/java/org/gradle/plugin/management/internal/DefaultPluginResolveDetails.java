@@ -43,6 +43,7 @@ public class DefaultPluginResolveDetails implements PluginResolveDetails {
         targetPluginRequest = new DefaultPluginRequest(
             targetPluginRequest.getId(),
             targetPluginRequest.getVersion(),
+            targetPluginRequest.getUri(),
             targetPluginRequest.isApply(),
             targetPluginRequest.getLineNumber(),
             targetPluginRequest.getScriptDisplayName(),
@@ -55,6 +56,7 @@ public class DefaultPluginResolveDetails implements PluginResolveDetails {
         targetPluginRequest = new DefaultPluginRequest(
             targetPluginRequest.getId(),
             version,
+            targetPluginRequest.getUri(),
             targetPluginRequest.isApply(),
             targetPluginRequest.getLineNumber(),
             targetPluginRequest.getScriptDisplayName(),

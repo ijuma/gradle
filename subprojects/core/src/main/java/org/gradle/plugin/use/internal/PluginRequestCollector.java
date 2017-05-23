@@ -29,6 +29,7 @@ import org.gradle.plugin.use.PluginDependencySpec;
 import org.gradle.plugin.use.PluginId;
 import org.gradle.util.CollectionUtils;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class PluginRequestCollector {
     private static class DependencySpecImpl implements PluginDependencySpec {
         private final PluginId id;
         private String version;
+        private URI uri;
         private boolean apply;
         private final int lineNumber;
 
@@ -63,6 +65,12 @@ public class PluginRequestCollector {
 
         public PluginDependencySpec version(String version) {
             this.version = version;
+            return this;
+        }
+
+        @Override
+        public PluginDependencySpec from(URI uri) {
+            this.uri = uri;
             return this;
         }
 
@@ -92,7 +100,7 @@ public class PluginRequestCollector {
     public List<PluginRequestInternal> listPluginRequests() {
         List<PluginRequestInternal> pluginRequests = collect(specs, new Transformer<PluginRequestInternal, DependencySpecImpl>() {
             public PluginRequestInternal transform(DependencySpecImpl original) {
-                return new DefaultPluginRequest(original.id, original.version, original.apply, original.lineNumber, scriptSource);
+                return new DefaultPluginRequest(original.id, original.version, original.uri, original.apply, original.lineNumber, scriptSource);
             }
         });
 

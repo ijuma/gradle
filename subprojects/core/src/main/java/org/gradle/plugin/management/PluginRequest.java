@@ -22,6 +22,8 @@ import org.gradle.api.artifacts.ModuleVersionSelector;
 import org.gradle.internal.HasInternalProtocol;
 import org.gradle.plugin.use.PluginId;
 
+import java.net.URI;
+
 /**
  * Contains information about a plugin that has been requested for resolution.
  *
@@ -41,6 +43,9 @@ public interface PluginRequest {
      */
     @Nullable
     String getVersion();
+
+    @Nullable
+    URI getUri();
 
     /**
      * The implementation module of the plugin if one was explicitly specified, otherwise null.

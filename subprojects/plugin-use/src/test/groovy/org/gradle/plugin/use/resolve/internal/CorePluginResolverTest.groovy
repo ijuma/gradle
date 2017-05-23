@@ -42,8 +42,8 @@ class CorePluginResolverTest extends Specification {
 
     def resolver = new CorePluginResolver(docRegistry, pluginRegistry)
 
-    PluginRequestInternal request(String id, String version = null) {
-        new DefaultPluginRequest(id, version, true, 1, new StringScriptSource("test", "test"))
+    PluginRequestInternal request(String id, String version = null, URI uri = null) {
+        new DefaultPluginRequest(id, version, uri, true, 1, new StringScriptSource("test", "test"))
     }
 
     def "non core plugins are ignored"() {
@@ -85,7 +85,7 @@ class CorePluginResolverTest extends Specification {
 
     def "cannot have custom artifact"() {
         when:
-        resolver.resolve(new DefaultPluginRequest(DefaultPluginId.of("foo"), null, true, 1, "test", Mock(ModuleVersionSelector)), result)
+        resolver.resolve(new DefaultPluginRequest(DefaultPluginId.of("foo"), null, null, true, 1, "test", Mock(ModuleVersionSelector)), result)
 
         then:
         1 * pluginRegistry.lookup(DefaultPluginId.of("foo")) >> Mock(PluginImplementation) { asClass() >> MyPlugin }

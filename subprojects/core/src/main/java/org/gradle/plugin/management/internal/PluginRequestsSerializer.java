@@ -23,6 +23,7 @@ import org.gradle.internal.serialize.Encoder;
 import org.gradle.plugin.use.PluginId;
 import org.gradle.plugin.use.internal.DefaultPluginId;
 
+import java.net.URI;
 import java.util.List;
 
 public class PluginRequestsSerializer extends AbstractSerializer<PluginRequests> {
@@ -33,11 +34,14 @@ public class PluginRequestsSerializer extends AbstractSerializer<PluginRequests>
         for (int i = 0; i < requestCount; i++) {
             PluginId pluginId = DefaultPluginId.unvalidated(decoder.readString());
             String version = decoder.readNullableString();
+            String uriString = decoder.readNullableString();
             boolean apply = decoder.readBoolean();
             int lineNumber = decoder.readSmallInt();
             String scriptDisplayName = decoder.readString();
 
-            requests.add(i, new DefaultPluginRequest(pluginId, version, apply, lineNumber, scriptDisplayName, null));
+            URI uri = uriString == null ? null : new URI(uriString);
+
+            requests.add(i, new DefaultPluginRequest(pluginId, version, uri, apply, lineNumber, scriptDisplayName, null));
         }
         return new DefaultPluginRequests(requests);
     }
@@ -48,6 +52,7 @@ public class PluginRequestsSerializer extends AbstractSerializer<PluginRequests>
         for (PluginRequestInternal request : requests) {
             encoder.writeString(request.getId().getId());
             encoder.writeNullableString(request.getVersion());
+            encoder.writeNullableString(request.getUri() == null ? null : request.getUri().toString());
             encoder.writeBoolean(request.isApply());
             encoder.writeSmallInt(request.getLineNumber());
             encoder.writeString(request.getScriptDisplayName());

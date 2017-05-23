@@ -27,6 +27,7 @@ import org.gradle.plugin.use.resolve.internal.CompositePluginResolver;
 import org.gradle.plugin.use.resolve.internal.CorePluginResolver;
 import org.gradle.plugin.use.resolve.internal.NoopPluginResolver;
 import org.gradle.plugin.use.resolve.internal.PluginResolver;
+import org.gradle.plugin.use.resolve.internal.ScriptPluginPluginResolver;
 import org.gradle.plugin.use.resolve.service.internal.InjectedClasspathPluginResolver;
 import org.gradle.plugin.use.resolve.service.internal.PluginResolutionServiceResolver;
 
@@ -40,19 +41,21 @@ public class PluginResolverFactory implements Factory<PluginResolver> {
     private final PluginResolutionServiceResolver pluginResolutionServiceResolver;
     private final PluginRepositoryRegistry pluginRepositoryRegistry;
     private final InjectedClasspathPluginResolver injectedClasspathPluginResolver;
+    private final ScriptPluginPluginResolver scriptPluginPluginResolver;
 
     public PluginResolverFactory(
         PluginRegistry pluginRegistry,
         DocumentationRegistry documentationRegistry,
         PluginResolutionServiceResolver pluginResolutionServiceResolver,
         PluginRepositoryRegistry pluginRepositoryRegistry,
-        InjectedClasspathPluginResolver injectedClasspathPluginResolver
-    ) {
+        InjectedClasspathPluginResolver injectedClasspathPluginResolver,
+        ScriptPluginPluginResolver scriptPluginPluginResolver) {
         this.pluginRegistry = pluginRegistry;
         this.documentationRegistry = documentationRegistry;
         this.pluginResolutionServiceResolver = pluginResolutionServiceResolver;
         this.pluginRepositoryRegistry = pluginRepositoryRegistry;
         this.injectedClasspathPluginResolver = injectedClasspathPluginResolver;
+        this.scriptPluginPluginResolver = scriptPluginPluginResolver;
     }
 
     @Override
@@ -86,6 +89,7 @@ public class PluginResolverFactory implements Factory<PluginResolver> {
     private void addDefaultResolvers(List<PluginResolver> resolvers) {
         resolvers.add(new NoopPluginResolver(pluginRegistry));
         resolvers.add(new CorePluginResolver(documentationRegistry, pluginRegistry));
+        resolvers.add(scriptPluginPluginResolver);
 
         if (!injectedClasspathPluginResolver.isClasspathEmpty()) {
             resolvers.add(injectedClasspathPluginResolver);

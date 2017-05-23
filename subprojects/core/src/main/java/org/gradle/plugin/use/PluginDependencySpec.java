@@ -19,6 +19,8 @@ package org.gradle.plugin.use;
 import org.gradle.api.Incubating;
 import org.gradle.api.Nullable;
 
+import java.net.URI;
+
 /**
  * A mutable specification of a dependency on a plugin.
  * <p>
@@ -49,6 +51,8 @@ public interface PluginDependencySpec {
      * @return this
      */
     PluginDependencySpec version(@Nullable String version);
+
+    PluginDependencySpec from(URI uri);
 
     /**
      * Specifies whether the plugin should be applied to the current project. Otherwise it is only put
