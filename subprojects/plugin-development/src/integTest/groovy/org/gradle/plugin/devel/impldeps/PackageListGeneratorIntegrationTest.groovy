@@ -36,8 +36,7 @@ class PackageListGeneratorIntegrationTest extends AbstractIntegrationSpec {
         "org/apache/log4j",
         "org/apache/xerces",
         "org/w3c/dom",
-        "org/xml/sax",
-        "sun/misc"
+        "org/xml/sax"
     ]
 
     def "generates a curated list of package prefixes from directories"() {
