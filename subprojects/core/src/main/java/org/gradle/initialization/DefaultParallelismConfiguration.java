@@ -19,7 +19,7 @@ package org.gradle.initialization;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.gradle.api.Incubating;
-import org.gradle.internal.concurrent.ParallelismConfiguration;
+import org.gradle.api.concurrent.ParallelismConfiguration;
 
 import java.io.Serializable;
 
