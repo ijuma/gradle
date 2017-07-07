@@ -18,7 +18,6 @@ package org.gradle.integtests
 
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
 import org.gradle.util.Requires
-import spock.lang.Issue
 
 import static org.gradle.util.TestPrecondition.KOTLIN_SCRIPT
 import static org.gradle.util.TestPrecondition.NOT_WINDOWS

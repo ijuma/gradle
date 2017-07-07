@@ -17,7 +17,6 @@
 package org.gradle.smoketests
 
 import org.gradle.util.Requires
-import spock.lang.Issue
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 import static org.gradle.util.TestPrecondition.KOTLIN_SCRIPT
